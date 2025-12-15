@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umar Juma Transport LLC</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Fonts -->
+    <style>
+        @import url('assets/fonts.css');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Page Transitions for Content */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+            animation: fadeInContent 0.5s ease-out;
+        }
+
+        @keyframes fadeInContent {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Full Screen Loader */
+        #page-loader {
+            position: fixed;
+            inset: 0;
+            background-color: white;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease-in-out, visibility 0.4s;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #page-loader.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Logo Animation */
+        @keyframes logo-pulse-spin {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2) rotate(180deg);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 1;
+            }
+        }
+
+        .loader-logo {
+            animation: logo-pulse-spin 1.5s infinite ease-in-out;
+            width: 80px;
+            height: auto;
+        }
+
+        /* Progress Bar Styles */
+        .progress-container {
+            width: 160px;
+            height: 3px;
+            background-color: #f1f5f9;
+            border-radius: 10px;
+            margin: 1.5rem auto 0;
+            /* Centered with margin top */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #E31E24;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.8s ease-in-out;
+        }
+
+        /* Dropdown Hover Logic for Desktop */
+        .group:hover .group-hover\:block {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- Global Page Loader -->
+    <div id="page-loader" class="active">
+        <div class="text-center">
+            <img src="assets/logo.jpeg" alt="Loading..." class="loader-logo mx-auto mb-2">
+            <p class="text-[#E31E24] font-bold tracking-widest text-xs animate-pulse mb-1">LOADING</p>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div id="loader-progress" class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="navigateTo('home')">
+                    <img class="h-16 w-auto object-contain" src="assets/logo.jpeg" alt="Umar Juma Transport LLC">
+                    <div class="ml-3 hidden md:block">
+                        <h1 class="text-xl font-bold text-slate-800 leading-none">
+                            <span class="text-[#E31E24]">UMAR JUMA</span>
+                        </h1>
+                        <p class="text-xs font-semibold text-slate-500 tracking-widest uppercase mt-1">Transport LLC</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <button onclick="navigateTo('home')"
+                        class="nav-link text-sm font-medium text-slate-600 hover:text-[#E31E24] transition-colors"
+                        data-page="home">Home</button>
+
+                    <!-- Services Dropdown -->
+                    <div class="relative group h-20 flex items-center">
+                        <button onclick="navigateTo('services')"
+                            class="nav-link text-sm font-medium text-slate-600 hover:text-[#E31E24] transition-colors inline-flex items-center"
+                            data-page="services">
+                            Services
+                            <i data-lucide="chevron-down"
+                                class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200"></i>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div
+                            class="absolute top-full left-0 w-56 bg-white shadow-xl rounded-b-lg border-t-2 border-[#E31E24] hidden group-hover:block transition-all duration-200">
+                            <div class="py-2">
+                                <button onclick="navigateTo('services')"
+                                    class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#E31E24] transition-colors">
+                                    All Services
+                                </button>
+                                <button onclick="navigateTo('service-water')"
+                                    class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#E31E24] transition-colors border-t border-slate-50">
+                                    Water Transport
+                                </button>
+                                <button onclick="navigateTo('service-waste')"
+                                    class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#E31E24] transition-colors border-t border-slate-50">
+                                    Waste Management
+                                </button>
+                                <button onclick="navigateTo('service-sludge')"
+                                    class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#E31E24] transition-colors border-t border-slate-50">
+                                    Sludge Removal
+                                </button>
+                                <button onclick="navigateTo('service-sewage')"
+                                    class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#E31E24] transition-colors border-t border-slate-50">
+                                    Sewage Water Removal
+                                </button>
+                                <button onclick="navigateTo('service-tse')"
+                                    class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#E31E24] transition-colors border-t border-slate-50">
+                                    TSE Water Supply
+                                </button>
+                                <button onclick="navigateTo('service-sweet')"
+                                    class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#E31E24] transition-colors border-t border-slate-50">
+                                    Sweet Water Supply
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="navigateTo('about')"
+                        class="nav-link text-sm font-medium text-slate-600 hover:text-[#E31E24] transition-colors"
+                        data-page="about">About Us</button>
+                    <button onclick="navigateTo('why-choose-us')"
+                        class="nav-link text-sm font-medium text-slate-600 hover:text-[#E31E24] transition-colors"
+                        data-page="why-choose-us">Why Choose Us</button>
+                    <button onclick="navigateTo('contact')"
+                        class="nav-link text-sm font-medium text-slate-600 hover:text-[#E31E24] transition-colors"
+                        data-page="contact">Contact</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-slate-700 hover:text-[#E31E24] p-2">
+                        <i data-lucide="menu" id="menu-icon"></i>
+                        <i data-lucide="x" id="close-icon" class="hidden"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white border-t border-gray-100 shadow-xl max-h-[80vh] overflow-y-auto">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <button onclick="navigateTo('home'); toggleMobileMenu()"
+                    class="block w-full text-left py-3 px-4 text-base font-medium text-slate-800 hover:bg-slate-50 hover:text-[#E31E24] rounded-lg">Home</button>
+
+                <!-- Mobile Services Dropdown -->
+                <div class="space-y-1">
+                    <div class="flex items-center justify-between w-full pr-4">
+                        <button onclick="navigateTo('services'); toggleMobileMenu()"
+                            class="block w-full text-left py-3 px-4 text-base font-medium text-slate-800 hover:bg-slate-50 hover:text-[#E31E24] rounded-lg">Services</button>
+                        <button onclick="document.getElementById('mobile-services-sub').classList.toggle('hidden')"
+                            class="p-2 text-slate-500">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <!-- Sub Menu -->
+                    <div id="mobile-services-sub" class="hidden pl-8 space-y-2 bg-slate-50 rounded-lg py-2">
+                        <button onclick="navigateTo('service-water'); toggleMobileMenu()"
+                            class="block w-full text-left py-2 px-4 text-sm font-medium text-slate-600 hover:text-[#E31E24]">Water
+                            Transport</button>
+                        <button onclick="navigateTo('service-waste'); toggleMobileMenu()"
+                            class="block w-full text-left py-2 px-4 text-sm font-medium text-slate-600 hover:text-[#E31E24]">Waste
+                            Management</button>
+                        <button onclick="navigateTo('service-sludge'); toggleMobileMenu()"
+                            class="block w-full text-left py-2 px-4 text-sm font-medium text-slate-600 hover:text-[#E31E24]">Sludge
+                            Removal</button>
+                        <button onclick="navigateTo('service-sewage'); toggleMobileMenu()"
+                            class="block w-full text-left py-2 px-4 text-sm font-medium text-slate-600 hover:text-[#E31E24]">Sewage
+                            Water Removal</button>
+                        <button onclick="navigateTo('service-tse'); toggleMobileMenu()"
+                            class="block w-full text-left py-2 px-4 text-sm font-medium text-slate-600 hover:text-[#E31E24]">TSE
+                            Water Supply</button>
+                        <button onclick="navigateTo('service-sweet'); toggleMobileMenu()"
+                            class="block w-full text-left py-2 px-4 text-sm font-medium text-slate-600 hover:text-[#E31E24]">Sweet
+                            Water Supply</button>
+                    </div>
+
+                    <button onclick="navigateTo('about'); toggleMobileMenu()"
+                        class="block w-full text-left py-3 px-4 text-base font-medium text-slate-800 hover:bg-slate-50 hover:text-[#E31E24] rounded-lg">About
+                        Us</button>
+                    <button onclick="navigateTo('why-choose-us'); toggleMobileMenu()"
+                        class="block w-full text-left py-3 px-4 text-base font-medium text-slate-800 hover:bg-slate-50 hover:text-[#E31E24] rounded-lg">Why
+                        Choose Us</button>
+                    <button onclick="navigateTo('contact'); toggleMobileMenu()"
+                        class="block w-full text-left py-3 px-4 text-base font-medium text-slate-800 hover:bg-slate-50 hover:text-[#E31E24] rounded-lg">Contact</button>
+                </div>
+            </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main>
+
+        <!-- HOME PAGE -->
+        <section id="home" class="page-section active">
+            <!-- Hero -->
+            <div class="relative min-h-[600px] lg:h-[85vh] flex items-center overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <img src="assets/truck.jpg"
+                        class="w-full h-full object-cover transform scale-105 transition-transform duration-[10s]"
+                        alt="Transport Truck">
+                    <div class="absolute inset-0 bg-slate-900/60"></div>
+                </div>
+                <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <div class="text-white space-y-6">
+                            <h2 class="text-sm font-bold uppercase tracking-widest text-white/80 fade-in">Reliable
+                                Transport Services in Dubai</h2>
+                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight fade-in">
+                                Professional Transport & <br>
+                                <span class="text-[#E31E24]">Logistics Solutions</span> <br>
+                                You Can Trust
+                            </h1>
+                            <p class="text-lg text-white/80 max-w-xl leading-relaxed fade-in">
+                                Umar Juma Transport provides fast, reliable, and Dubai-approved transport solutions for
+                                residential, commercial, and industrial clients across UAE.
+                            </p>
+                            <button onclick="navigateTo('contact')"
+                                class="bg-[#E31E24] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#c4191e] transition-colors inline-flex items-center space-x-2 shadow-lg shadow-red-600/20 fade-in">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                                <span>+971 55 334 3472</span>
+                            </button>
+                            <!-- WhatsApp Button -->
+
+                            <button onclick="window.open('https://wa.me/971553343472', '_blank')"
+                                class="bg-[#25D366] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#20bd5a] transition-colors inline-flex items-center space-x-2 shadow-lg shadow-red-600/20 fade-in">
+                                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                <span>Chat on WhatsApp</span>
+                            </button>
+
+
+
+
+                        </div>
+
+                        <div class="hidden lg:block max-w-md ml-auto w-full fade-in">
+                            <!-- Enquiry Form Component -->
+                            <div class="bg-white p-8 rounded-2xl shadow-2xl">
+                                <h3 class="text-2xl font-bold text-[#E31E24] mb-6">Enquire Now</h3>
+                                <form class="space-y-4"
+                                    onsubmit="event.preventDefault(); alert('Thank you! We will contact you shortly.')">
+                                    <input type="text" placeholder="Name"
+                                        class="w-full px-4 py-3 rounded-lg bg-[#FAF5F5] border border-transparent focus:bg-white focus:border-[#E31E24] outline-none transition-all placeholder:text-gray-400 text-gray-800">
+                                    <input type="tel" placeholder="Contact Number"
+                                        class="w-full px-4 py-3 rounded-lg bg-[#FAF5F5] border border-transparent focus:bg-white focus:border-[#E31E24] outline-none transition-all placeholder:text-gray-400 text-gray-800">
+                                    <input type="email" placeholder="Email"
+                                        class="w-full px-4 py-3 rounded-lg bg-[#FAF5F5] border border-transparent focus:bg-white focus:border-[#E31E24] outline-none transition-all placeholder:text-gray-400 text-gray-800">
+                                    <input type="text" placeholder="Location"
+                                        class="w-full px-4 py-3 rounded-lg bg-[#FAF5F5] border border-transparent focus:bg-white focus:border-[#E31E24] outline-none transition-all placeholder:text-gray-400 text-gray-800">
+                                    <select
+                                        class="w-full px-4 py-3 rounded-lg bg-[#FAF5F5] border border-transparent focus:bg-white focus:border-[#E31E24] outline-none transition-all text-gray-500">
+                                        <option value="">Select Services</option>
+                                        <option value="water">Water Transport</option>
+                                        <option value="waste">Waste Management</option>
+                                        <option value="sludge">Sludge Removal</option>
+                                        <option value="sewage">Sewage Water Removal</option>
+                                        <option value="TSE">TSE Water Supply</option>
+                                        <option value="sweet">Sweet Water Supply</option>
+                                    </select>
+                                    <button
+                                        class="w-full bg-[#E31E24] text-white font-bold py-3 rounded-lg hover:bg-[#c4191e] transition-colors shadow-lg shadow-red-500/30">Submit</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Features -->
+            <section class="py-24 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16 max-w-3xl mx-auto">
+                        <h2 class="text-[#E31E24] font-bold text-sm uppercase tracking-widest mb-3">Core Values</h2>
+                        <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Why Partner With Us?</h3>
+                        <p class="text-slate-500">We don't just transport goods; we deliver peace of mind through our
+                            commitment to excellence.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Feature 1 -->
+                        <div
+                            class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100 text-center group fade-in">
+                            <div
+                                class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-[#E31E24] mb-6 mx-auto group-hover:bg-[#E31E24] group-hover:text-white transition-colors duration-300">
+                                <i data-lucide="truck" class="w-8 h-8"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-4 text-slate-900">Specialize In Transport</h4>
+                            <p class="text-slate-500 leading-relaxed text-sm">Umer Juma Transport (UJT) is a global
+                                technology solutions provider with complex logistics requirements.</p>
+                        </div>
+                        <!-- Feature 2 -->
+                        <div
+                            class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100 text-center group fade-in">
+                            <div
+                                class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-[#E31E24] mb-6 mx-auto group-hover:bg-[#E31E24] group-hover:text-white transition-colors duration-300">
+                                <i data-lucide="users" class="w-8 h-8"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-4 text-slate-900">Experienced Team</h4>
+                            <p class="text-slate-500 leading-relaxed text-sm">Our experienced team offers a
+                                comprehensive range of services tailored to your specific requirements.</p>
+                        </div>
+                        <!-- Feature 3 -->
+                        <div
+                            class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100 text-center group fade-in">
+                            <div
+                                class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-[#E31E24] mb-6 mx-auto group-hover:bg-[#E31E24] group-hover:text-white transition-colors duration-300">
+                                <i data-lucide="award" class="w-8 h-8"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-4 text-slate-900">Proven Leaders</h4>
+                            <p class="text-slate-500 leading-relaxed text-sm">We are proud to have a team of seasoned
+                                leaders who have a proven track record of delivering exceptional results.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section class="py-24 bg-slate-50 relative overflow-hidden">
+                <!-- Background Pattern -->
+                <div
+                    class="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="text-center mb-16 max-w-3xl mx-auto">
+                        <h2 class="text-[#E31E24] font-bold text-sm uppercase tracking-widest mb-3">Testimonials</h2>
+                        <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">What Our Clients Say</h3>
+                        <p class="text-slate-500">Don't just take our word for it. Here is what our partners have to say
+                            about our services.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Review 1 -->
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 fade-in">
+                            <div class="flex items-center space-x-1 text-yellow-400 mb-6">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                            <p class="text-slate-600 mb-6 leading-relaxed italic">"Umar Juma Transport has been our
+                                reliable partner for water supply for over a year. Their team is professional and always
+                                on time."</p>
+                            <div class="flex items-center">
+                                <div
+                                    class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center text-slate-500 font-bold">
+                                    AJ</div>
+                                <div class="ml-3">
+                                    <h4 class="font-bold text-slate-900 text-sm">Ahmed Jaber</h4>
+                                    <p class="text-xs text-slate-500">Construction Manager</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review 2 -->
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 fade-in"
+                            style="animation-delay: 0.1s;">
+                            <div class="flex items-center space-x-1 text-yellow-400 mb-6">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                            <p class="text-slate-600 mb-6 leading-relaxed italic">"The waste management solutions
+                                provided by UJT are top-notch. They handle everything with strict adherence to
+                                regulations."</p>
+                            <div class="flex items-center">
+                                <div
+                                    class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center text-slate-500 font-bold">
+                                    SM</div>
+                                <div class="ml-3">
+                                    <h4 class="font-bold text-slate-900 text-sm">Sarah Mitchell</h4>
+                                    <p class="text-xs text-slate-500">Operations Director</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review 3 -->
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 fade-in"
+                            style="animation-delay: 0.2s;">
+                            <div class="flex items-center space-x-1 text-yellow-400 mb-6">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                            <p class="text-slate-600 mb-6 leading-relaxed italic">"Exceptional service for sewage
+                                removal. Their fleet is modern and their response time is impressive. Highly
+                                recommended!"</p>
+                            <div class="flex items-center">
+                                <div
+                                    class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center text-slate-500 font-bold">
+                                    MK</div>
+                                <div class="ml-3">
+                                    <h4 class="font-bold text-slate-900 text-sm">Mohammed Khan</h4>
+                                    <p class="text-xs text-slate-500">Facility Manager</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- SERVICES PAGE -->
+        <section id="services" class="page-section">
+            <div class="bg-slate-900 py-20 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Our Services</h1>
+                    <p class="text-lg text-slate-400 max-w-2xl mx-auto">Professional and reliable logistics solutions
+                        for every industry.</p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pb-20">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Service Items -->
+                        <div onclick="navigateTo('service-water')"
+                            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 group p-6 fade-in cursor-pointer">
+                            <div
+                                class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center text-[#E31E24] mb-4 group-hover:bg-[#E31E24] group-hover:text-white transition-colors">
+                                <i data-lucide="droplets" class="w-6 h-6"></i>
+                            </div>
+                            <h3
+                                class="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#E31E24] transition-colors">
+                                Water Transport</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">Reliable transportation of sweet and
+                                TSE water for construction and commercial use.</p>
+                            <span
+                                class="text-[#E31E24] font-bold text-sm flex items-center mt-2 group-hover:translate-x-2 transition-transform">Learn
+                                More <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></span>
+                        </div>
+                        <div onclick="navigateTo('service-waste')"
+                            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 group p-6 fade-in cursor-pointer">
+                            <div
+                                class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center text-[#E31E24] mb-4 group-hover:bg-[#E31E24] group-hover:text-white transition-colors">
+                                <i data-lucide="trash-2" class="w-6 h-6"></i>
+                            </div>
+                            <h3
+                                class="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#E31E24] transition-colors">
+                                Waste Management</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">Comprehensive waste handling from
+                                inception to final disposal.</p>
+                            <span
+                                class="text-[#E31E24] font-bold text-sm flex items-center mt-2 group-hover:translate-x-2 transition-transform">Learn
+                                More <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></span>
+                        </div>
+                        <div onclick="navigateTo('service-sludge')"
+                            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 group p-6 fade-in cursor-pointer">
+                            <div
+                                class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center text-[#E31E24] mb-4 group-hover:bg-[#E31E24] group-hover:text-white transition-colors">
+                                <i data-lucide="recycle" class="w-6 h-6"></i>
+                            </div>
+                            <h3
+                                class="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#E31E24] transition-colors">
+                                Sludge Removal</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">Specialized removal of sludge waste
+                                from sites across the country.</p>
+                            <span
+                                class="text-[#E31E24] font-bold text-sm flex items-center mt-2 group-hover:translate-x-2 transition-transform">Learn
+                                More <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></span>
+                        </div>
+                        <div onclick="navigateTo('service-sewage')"
+                            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 group p-6 fade-in cursor-pointer">
+                            <div
+                                class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center text-[#E31E24] mb-4 group-hover:bg-[#E31E24] group-hover:text-white transition-colors">
+                                <i data-lucide="fuel" class="w-6 h-6"></i>
+                            </div>
+                            <h3
+                                class="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#E31E24] transition-colors">
+                                Sewage Water Removal</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">Redcubes is a leader in the field of
+                                sewage water removal, transportation and its disposal in Dubai.</p>
+                            <span
+                                class="text-[#E31E24] font-bold text-sm flex items-center mt-2 group-hover:translate-x-2 transition-transform">Learn
+                                More <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></span>
+                        </div>
+                        <div onclick="navigateTo('service-tse')"
+                            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 group p-6 fade-in cursor-pointer">
+                            <div
+                                class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center text-[#E31E24] mb-4 group-hover:bg-[#E31E24] group-hover:text-white transition-colors">
+                                <i data-lucide="droplets" class="w-6 h-6"></i>
+                            </div>
+                            <h3
+                                class="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#E31E24] transition-colors">
+                                TSE Water Supply</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">We Supply of TSE (Treated Sewage
+                                Effluent) Water for The Irrigation System to Provide a Convenient Means of Sewage
+                                Disposal Through Land Treatment.</p>
+                            <span
+                                class="text-[#E31E24] font-bold text-sm flex items-center mt-2 group-hover:translate-x-2 transition-transform">Learn
+                                More <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></span>
+                        </div>
+                        <div onclick="navigateTo('service-sweet')"
+                            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 group p-6 fade-in cursor-pointer">
+                            <div
+                                class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center text-[#E31E24] mb-4 group-hover:bg-[#E31E24] group-hover:text-white transition-colors">
+                                <i data-lucide="droplets" class="w-6 h-6"></i>
+                            </div>
+                            <h3
+                                class="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#E31E24] transition-colors">
+                                Sweet Water Supply</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-4">We Supply of Sweet Water
+                                for the Irrigation System to Provide a Convenient Means of Sewage
+                                Disposal Through Land Treatment.</p>
+                            <span
+                                class="text-[#E31E24] font-bold text-sm flex items-center mt-2 group-hover:translate-x-2 transition-transform">Learn
+                                More <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></span>
+                        </div>
+
+                    </div>
+                    <div class="lg:col-span-1">
+                        <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-[#E31E24]">
+                            <h4 class="text-xl font-bold mb-4">Quick Enquiry</h4>
+                            <form class="space-y-4" onsubmit="event.preventDefault(); alert('Message sent!')">
+                                <input type="text" placeholder="Your Name"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-[#E31E24]">
+                                <input type="tel" placeholder="Phone Number"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-[#E31E24]">
+                                <textarea rows="4" placeholder="Message"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-[#E31E24]"></textarea>
+                                <button
+                                    class="w-full bg-[#E31E24] text-white font-bold py-3 rounded-lg hover:bg-[#c4191e]">Send
+                                    Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT PAGE -->
+        <section id="about" class="page-section">
+            <div class="bg-slate-900 py-20 relative overflow-hidden">
+                <div class="absolute inset-0 bg-[url('assets/background.jpg')] bg-cover bg-center opacity-10"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">About Us</h1>
+                    <p class="text-xl text-slate-400 max-w-2xl mx-auto">Driving excellence in logistics through
+                        technology and experienced leadership.</p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-20 pb-20">
+                <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 border-b-4 border-[#E31E24]">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h2 class="text-[#009FE3] font-bold text-sm uppercase tracking-widest mb-2">Who We Are</h2>
+                            <h3 class="text-3xl font-extrabold text-slate-900 mb-6">Umar Juma Transport LLC</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed text-lg">
+                                <span class="font-semibold text-slate-800">Umar Juma Transport LLC (Established In
+                                    2025)</span>. Having intimate knowledge of our industry, we provide elite service
+                                and tech assistance to a large number of clients all over Dubai.
+                            </p>
+                            <p class="text-slate-600 mb-6 leading-relaxed text-lg">
+                                We strive to build and maintain long-lasting relationships by offering cost-effective
+                                transportation solutions without compromising on efficiency.
+                            </p>
+                        </div>
+                        <div class="relative">
+                            <img src="assets/about.jpg"
+                                class="relative rounded-lg shadow-lg w-full object-cover h-[400px]" alt="About Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US PAGE -->
+        <section id="why-choose-us" class="page-section">
+            <div class="bg-slate-900 py-20 mb-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+                    <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Why Choose Us</h1>
+                    <p class="text-slate-400 max-w-2xl mx-auto text-lg">Discover the UJT difference and why we are the
+                        preferred logistics partner.</p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2">
+                        <div class="p-10 md:p-16 flex flex-col justify-center">
+                            <h3 class="text-3xl font-bold mb-6 text-slate-900">Dedicated to Excellence</h3>
+                            <div class="space-y-6">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <div
+                                            class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                                            <i data-lucide="clock" class="h-6 w-6"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-medium text-slate-900">On-Time Delivery</h4>
+                                        <p class="mt-2 text-base text-slate-500">We ensure your shipments arrive on
+                                            schedule, every time.</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <div
+                                            class="flex items-center justify-center h-12 w-12 rounded-md bg-red-500 text-white">
+                                            <i data-lucide="shield-check" class="h-6 w-6"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-medium text-slate-900">Safety First</h4>
+                                        <p class="mt-2 text-base text-slate-500">Our fleet is maintained to the highest
+                                            standards with strict safety protocols.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-100 h-full min-h-[400px]">
+                            <img src="assets/truck.jpg" class="w-full h-full object-cover" alt="Fleet">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section id="contact" class="page-section">
+            <!-- Hero / Title -->
+            <div class="bg-slate-900 py-20 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Contact Us</h1>
+                    <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+                        We're here to help with all your logistics needs. Reach out to us anytime.
+                    </p>
+                </div>
+            </div>
+
+
+
+            <!-- Contact Info + Form Grid -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 pb-20">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left Column: Contact Info -->
+                    <div class="lg:col-span-1 space-y-6">
+                        <!-- Office -->
+                        <div class="flex items-start bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                            <div
+                                class="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center text-[#E31E24] flex-shrink-0 mt-1">
+                                <i data-lucide="map-pin" class="w-6 h-6"></i>
+                            </div>
+                            <div class="ml-5">
+                                <h4 class="font-bold text-lg text-slate-900">Visit Our Office</h4>
+                                <p class="text-slate-600 mt-2 leading-relaxed">
+                                    Office 402, Crystal Tower M Hotel by Millennium, Business Bay, Dubai-UAE
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="flex flex-col bg-white p-6 rounded-xl shadow-sm border border-slate-100 space-y-2">
+                            <div class="flex items-center space-x-3">
+                                <div
+                                    class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#009FE3] flex-shrink-0">
+                                    <i data-lucide="phone" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-slate-900">Call Us Anytime</h4>
+                                    <p class="text-slate-600 mt-1">+971 55 334 3472</p>
+                                    <p class="text-slate-600 mt-1">+971 55 865 5905</p>
+                                    <p class="text-slate-600 mt-1">+971 50 496 6086</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="flex flex-col bg-white p-6 rounded-xl shadow-sm border border-slate-100 space-y-2">
+                            <div class="flex items-center space-x-3">
+                                <div
+                                    class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#009FE3] flex-shrink-0">
+                                    <i data-lucide="mail" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-slate-900">Email Us</h4>
+                                    <p class="text-slate-600 mt-1">Umar66544@gmail.com</p>
+                                    <p class="text-slate-600 mt-1">Umartrp1@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Contact Form -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-t-4 border-[#E31E24]">
+                            <h4 class="text-2xl font-bold mb-2">Send a Message</h4>
+                            <p class="text-slate-500 mb-8">Get a free quote or ask us anything.</p>
+                            <form class="space-y-5"
+                                onsubmit="event.preventDefault(); alert('Message sent successfully!')">
+                                <div class="grid grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">First Name</label>
+                                        <input type="text"
+                                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-[#009FE3]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Last Name</label>
+                                        <input type="text"
+                                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-[#009FE3]">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">Email Address</label>
+                                    <input type="email"
+                                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-[#009FE3]">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">Interested
+                                        Service</label>
+                                    <select id="contact-service-select"
+                                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-[#009FE3] text-slate-600">
+                                        <option value="">Select a Service</option>
+                                        <option value="water">Water Transport</option>
+                                        <option value="waste">Waste Management</option>
+                                        <option value="sludge">Sludge Removal</option>
+                                        <option value="sewage">Sewage Water Removal</option>
+                                        <option value="tse">TSE Water Supply</option>
+                                        <option value="sweet">Sweet Water Supply</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">Message</label>
+                                    <textarea rows="4"
+                                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-[#009FE3]"></textarea>
+                                </div>
+                                <button
+                                    class="w-full bg-[#009FE3] text-white font-bold py-4 rounded-lg hover:bg-[#008bc5] transition-all shadow-lg">Send
+                                    Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 relative z-20">
+                <!-- Added relative z-20 and mb-20 -->
+                <div class="w-full h-70 sm:h-80 md:h-96 rounded-xl overflow-hidden shadow-2xl border border-slate-200">
+                    <!-- Added shadow -->
+                    <iframe class="w-full h-full"
+                        src="https://www.google.com/maps?q=Crystal%20Tower%20M%20Hotel%20by%20Millennium%20Business%20Bay%20Dubai&output=embed"
+                        style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICE LANDING PAGES -->
+
+        <!-- Water Transport -->
+        <section id="service-water" class="page-section">
+            <div class="bg-slate-900 py-20 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Water Transport</h1>
+                    <p class="text-lg text-slate-400 max-w-2xl mx-auto">Reliable sweet and TSE water supply for all your
+                        needs.</p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-6">Premium Water Transport Services</h2>
+                        <p class="text-slate-600 mb-6 leading-relaxed">
+                            We specialize in the reliable transportation of Sweet Water and TSE (Treated Sewage
+                            Effluent) water for construction, industrial, and commercial use. Our fleet of tankers
+                            ensures timely delivery to sites across Dubai and the UAE.
+                        </p>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3"></i> Construction Site Supply</li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3"></i> Swimming Pool Filling</li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3"></i> Irrigation Water Supply</li>
+                        </ul>
+                        <button onclick="enquireService('water')"
+                            class="bg-[#E31E24] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#c4191e] transition-colors">Request
+                            a Quote</button>
+                    </div>
+                    <div class="rounded-xl overflow-hidden shadow-2xl">
+                        <img src="assets/truck.jpg"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                            alt="Water Transport">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Waste Management -->
+        <section id="service-waste" class="page-section">
+            <div class="bg-slate-900 py-20 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Waste Management</h1>
+                    <p class="text-lg text-slate-400 max-w-2xl mx-auto">Sustainable waste handling and disposal
+                        solutions.</p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-6">Comprehensive Waste Solutions</h2>
+                        <div class="text-slate-600 mb-6 leading-relaxed space-y-4">
+                            <p>We offer a full range of waste management services to our industrial & commercial
+                                customers including compaction, specialized containers, hauling and recycling. We meet
+                                these needs with our own special combination of equipment and 24-hour a day service.</p>
+                            <p>We provide exactly the right kind of containers & Skips to our Customers [Factories,
+                                Workshops, Shopping Malls, Hotels & landscaping Companies. Wastes Generated by the
+                                normal activities of Staff Accommodations & Residential complexes. Professional
+                                uniformed and trained drivers operate with efficiency, practicality and the courtesy
+                                expected by Camp Boss & Residential Security Staff. We provide regular safety meetings
+                                for our people and stress the importance of having good relations with every Staff
+                                Accommodations & residential Complexes we service.</p>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3"></i> Residential Waste Management</li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3"></i> Industrial & Commercial waste Management
+                            </li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3"></i> Medical Waste Management</li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3"></i> Hazardous & Pharmaceutical Waste Management
+                            </li>
+                        </ul>
+                        <button onclick="enquireService('waste')"
+                            class="bg-[#E31E24] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#c4191e] transition-colors">Request
+                            a Quote</button>
+                    </div>
+                    <div class="rounded-xl overflow-hidden shadow-2xl">
+                        <img src="assets/about.jpg"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                            alt="Waste Management">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sludge Removal -->
+        <section id="service-sludge" class="page-section">
+            <div class="bg-slate-900 py-20 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Sludge Removal</h1>
+                    <p class="text-lg text-slate-400 max-w-2xl mx-auto">Expert removal of industrial sludge.</p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-6">Specialized Sludge Handling</h2>
+                        <p class="text-slate-600 mb-6 leading-relaxed">
+                            We Remove Sludge Waste from Sites Across the Country Fleet of Specialized Vehicles Equipped
+                            with Barrel Capacities That Can Cope with the Volume of Sludge Waste.
+                        </p>
+                        <button onclick="enquireService('sludge')"
+                            class="bg-[#E31E24] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#c4191e] transition-colors">Request
+                            a Quote</button>
+                    </div>
+                    <div class="rounded-xl overflow-hidden shadow-2xl">
+                        <img src="assets/truck.jpg"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                            alt="Sludge Removal">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sewage Water Removal -->
+        <section id="service-sewage" class="page-section">
+            <div class="bg-slate-900 py-20 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Sewage Water Removal</h1>
+                    <p class="text-lg text-slate-400 max-w-2xl mx-auto">Safe and efficient liquid waste removal.</p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Image acts as first col effectively moving it to left -->
+                    <div class="rounded-xl overflow-hidden shadow-2xl order-last lg:order-first">
+                        <img src="assets/sewage_truck.png"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                            alt="Sewage Removal">
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-6">Waste Water removal services</h2>
+                        <p class="text-slate-600 mb-6 leading-relaxed">
+                            Umar Juma Transport is one of the leading service provider of all kinds of Drainage and
+                            Waste water removal services in the DUBAI. We provide services at a very competitive price.
+                            Below mentioned are the services which we currently provide to our esteemed clients in the
+                            DUBAI.
+                        </p>
+                        <ul class="space-y-3 mb-8 grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Waste Water removal
+                                    Services</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Removing Drainage
+                                    water</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Grease trap
+                                    cleaning</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Sewage water
+                                    removal</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Liquid Waste
+                                    Disposal</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Domestic waste
+                                    Disposal</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Construction waste
+                                    Disposal</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Disposal of hazardous
+                                    liquid</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Treated sewage water
+                                    for irrigation purposes</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Sewer lines & blockage
+                                    removals</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Water Tank
+                                    Cleaning</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Cleaning of water
+                                    storage tanks in hotels and residences.</span></li>
+                            <li class="flex items-center text-slate-700"><i data-lucide="check-circle"
+                                    class="w-5 h-5 text-[#E31E24] mr-3 flex-shrink-0"></i> <span>Disposal of trade waste
+                                    (non- hazardous liquid)</span></li>
+                        </ul>
+                        <button onclick="enquireService('sewage')"
+                            class="bg-[#E31E24] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#c4191e] transition-colors">Request
+                            a Quote</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TSE Water Supply -->
+        <section id="service-tse" class="page-section">
+            <div class="bg-slate-900 py-20 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">TSE Water Supply</h1>
+                    <p class="text-lg text-slate-400 max-w-2xl mx-auto">Treated Sewage Effluent for irrigation and
+                        industrial use.</p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-6">Sustainable Water Solutions</h2>
+                        <p class="text-slate-600 mb-6 leading-relaxed">
+                            We Supply of Tse (Treated Sewage Effluent) Water for The Irrigation System to Provide a
+                            Convenient Means of Sewage Disposal Through Land Treatment to Prevent Potential
+                            Environmental Hazards Caused by Uncontrolled Flow of Wastewater.
+                        </p>
+                        <button onclick="enquireService('tse')"
+                            class="bg-[#E31E24] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#c4191e] transition-colors">Request
+                            a Quote</button>
+                    </div>
+                    <div class="rounded-xl overflow-hidden shadow-2xl">
+                        <img src="assets/truck.jpg"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                            alt="TSE Water">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sweet Water Supply -->
+        <section id="service-sweet" class="page-section">
+            <div class="bg-slate-900 py-20 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Sweet Water Supply</h1>
+                    <p class="text-lg text-slate-400 max-w-2xl mx-auto">Fresh, clean sweet water for pools and tanks.
+                    </p>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-6">Quality Sweet Water</h2>
+                        <p class="text-slate-600 mb-6 leading-relaxed">
+                            We Supply of Tse (Treated Sewage Effluent) Water for the Irrigation System to Provide a
+                            Convenient Means of Sewage Disposal Through Land Treatment to Prevent Potential
+                            Environmental Hazards Caused by Uncontrolled Flow of Wastewater.
+                        </p>
+                        <button onclick="enquireService('sweet')"
+                            class="bg-[#E31E24] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#c4191e] transition-colors">Request
+                            a Quote</button>
+                    </div>
+                    <div class="rounded-xl overflow-hidden shadow-2xl">
+                        <img src="assets/truck.jpg"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                            alt="Sweet Water">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1D2939] text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="space-y-6">
+                    <img src="assets/logo.jpeg" alt="Logo" class="h-12 w-auto" />
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-xs">
+                        Umer Juma Transport (UJT) is a global technology solutions provider with complex logistics
+                        requirements.
+                    </p>
+
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-lg font-bold text-white mb-4">Contact Info</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start space-x-3 text-slate-400">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-[#E31E24] mt-1 flex-shrink-0"></i>
+                            <span class="text-sm leading-relaxed">Office 402, Crystal Tower M Hotel by Millennium,
+                                Business Bay, Dubai-UAE</span>
+                        </li>
+                        <ul class="space-y-3">
+                            <li class="flex items-center space-x-3 text-slate-400">
+                                <i data-lucide="phone" class="w-5 h-5 text-[#E31E24] flex-shrink-0"></i>
+                                <span class="text-sm">+971 55 334 3472</span>
+                            </li>
+
+                            <li class="flex items-center space-x-3 text-slate-400">
+                                <i data-lucide="phone" class="w-5 h-5 text-[#E31E24] flex-shrink-0"></i>
+                                <span class="text-sm">+971 55 865 5905</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-slate-400">
+                                <i data-lucide="phone" class="w-5 h-5 text-[#E31E24] flex-shrink-0"></i>
+                                <span class="text-sm">+971 50 496 6086</span>
+                            </li>
+                        </ul>
+
+                        <ul class="space-y-3">
+                            <li class="flex items-center space-x-3 text-slate-400">
+                                <i data-lucide="mail" class="w-5 h-5 text-[#E31E24] flex-shrink-0"></i>
+                                <span class="text-sm">Umar66544@gmail.com</span>
+                            </li>
+
+                            <li class="flex items-center space-x-3 text-slate-400">
+                                <i data-lucide="mail" class="w-5 h-5 text-[#E31E24] flex-shrink-0"></i>
+                                <span class="text-sm">Umartrp1@gmail.com</span>
+                            </li>
+
+                        </ul>
+                    </ul>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-lg font-bold text-white mb-4">Our Services</h3>
+                    <div class="grid grid-cols-1 gap-2 text-sm text-slate-400">
+                        <a href="#" onclick="navigateTo('service-water'); return false;"
+                            class="hover:text-[#E31E24] transition-colors flex items-center"><i
+                                data-lucide="chevron-right" class="w-3 h-3 mr-2"></i> Water Transport</a>
+                        <a href="#" onclick="navigateTo('service-waste'); return false;"
+                            class="hover:text-[#E31E24] transition-colors flex items-center"><i
+                                data-lucide="chevron-right" class="w-3 h-3 mr-2"></i> Waste Management</a>
+                        <a href="#" onclick="navigateTo('service-sludge'); return false;"
+                            class="hover:text-[#E31E24] transition-colors flex items-center"><i
+                                data-lucide="chevron-right" class="w-3 h-3 mr-2"></i> Sludge Removal</a>
+                        <a href="#" onclick="navigateTo('service-sewage'); return false;"
+                            class="hover:text-[#E31E24] transition-colors flex items-center"><i
+                                data-lucide="chevron-right" class="w-3 h-3 mr-2"></i> Sewage Water Removal</a>
+                        <a href="#" onclick="navigateTo('service-tse'); return false;"
+                            class="hover:text-[#E31E24] transition-colors flex items-center"><i
+                                data-lucide="chevron-right" class="w-3 h-3 mr-2"></i> TSE Water Supply</a>
+                        <a href="#" onclick="navigateTo('service-sweet'); return false;"
+                            class="hover:text-[#E31E24] transition-colors flex items-center"><i
+                                data-lucide="chevron-right" class="w-3 h-3 mr-2"></i> Sweet Water Supply</a>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
+                <p>© 2025 Umar Juma Transport LLC. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Page Loader Logic
+        window.addEventListener('load', () => {
+            // Start progress animation
+            setTimeout(() => {
+                document.getElementById('loader-progress').style.width = '100%';
+            }, 100);
+
+            // Hide loader after delay
+            setTimeout(() => {
+                const loader = document.getElementById('page-loader');
+                loader.classList.remove('active');
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    // Reset for next time
+                    document.getElementById('loader-progress').style.width = '0%';
+                }, 400);
+            }, 1500); // Wait for progress bar to finish
+        });
+
+        // Navigation Logic with Loader and Progress
+        function navigateTo(pageId) {
+            const loader = document.getElementById('page-loader');
+            const progressBar = document.getElementById('loader-progress');
+            const target = document.getElementById(pageId);
+
+            // Reset progress
+            progressBar.style.width = '0%';
+
+            // 1. Show Loader
+            loader.style.display = 'flex';
+            // Force reflow
+            void loader.offsetWidth;
+            loader.classList.add('active');
+
+            // Start Progress
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+            }, 50);
+
+            // 2. Wait for "load" simulation
+            setTimeout(() => {
+                // 3. Switch Content
+                document.querySelectorAll('.page-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                if (target) {
+                    target.classList.add('active');
+                    window.scrollTo(0, 0);
+                }
+
+                // Update nav active state
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.dataset.page === pageId) {
+                        link.classList.add('text-[#E31E24]');
+                        link.classList.remove('text-slate-600');
+                    } else {
+                        link.classList.remove('text-[#E31E24]');
+                        link.classList.add('text-slate-600');
+                    }
+                });
+
+                // 4. Hide Loader
+                setTimeout(() => {
+                    loader.classList.remove('active');
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                        progressBar.style.width = '0%';
+                    }, 400);
+                }, 300);
+
+            }, 800); // 800ms loading time
+        }
+
+        // Enquire Service Function
+        function enquireService(serviceValue) {
+            navigateTo('contact');
+            // Wait for navigation and then set the value
+            setTimeout(() => {
+                const selectInfo = document.getElementById('contact-service-select');
+                if (selectInfo) {
+                    selectInfo.value = serviceValue;
+                    // Optional: Scroll to form if needed, though navigateTo scrolls to top
+                    selectInfo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 900); // slightly longer than navigateTo delay
+        }
+
+        // Mobile Menu Logic
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        // Animation on Scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
