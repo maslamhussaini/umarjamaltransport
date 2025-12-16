@@ -1,13 +1,10 @@
 import React from 'react';
+import Link from 'next/link';
 import { MapPin, Phone, Mail, ChevronRight } from 'lucide-react';
 
-interface FooterProps {
-  onNavigate: (page: string) => void;
-}
-
-const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+const Footer: React.FC = () => {
   const handleServiceClick = (service: string) => {
-    onNavigate(service);
+    // No navigation needed - Link components handle routing
   };
 
   return (
@@ -62,48 +59,48 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div className="space-y-6">
             <h3 className="text-lg font-bold text-white mb-4">Our Services</h3>
             <div className="grid grid-cols-1 gap-2 text-sm text-slate-400">
-              <button 
-                onClick={() => handleServiceClick('service-water')}
+              <Link
+                href="/services/water-transport"
                 className="hover:text-brand-red transition-colors flex items-center text-left"
               >
-                <ChevronRight className="w-3 h-3 mr-2" /> 
+                <ChevronRight className="w-3 h-3 mr-2" />
                 Water Transport
-              </button>
-              <button 
-                onClick={() => handleServiceClick('service-waste')}
+              </Link>
+              <Link
+                href="/services/waste-management"
                 className="hover:text-brand-red transition-colors flex items-center text-left"
               >
-                <ChevronRight className="w-3 h-3 mr-2" /> 
+                <ChevronRight className="w-3 h-3 mr-2" />
                 Waste Management
-              </button>
-              <button 
-                onClick={() => handleServiceClick('service-sludge')}
+              </Link>
+              <Link
+                href="/services/sludge-removal"
                 className="hover:text-brand-red transition-colors flex items-center text-left"
               >
-                <ChevronRight className="w-3 h-3 mr-2" /> 
+                <ChevronRight className="w-3 h-3 mr-2" />
                 Sludge Removal
-              </button>
-              <button 
-                onClick={() => handleServiceClick('service-sewage')}
+              </Link>
+              <Link
+                href="/services/sewage-removal"
                 className="hover:text-brand-red transition-colors flex items-center text-left"
               >
-                <ChevronRight className="w-3 h-3 mr-2" /> 
+                <ChevronRight className="w-3 h-3 mr-2" />
                 Sewage Water Removal
-              </button>
-              <button 
-                onClick={() => handleServiceClick('service-tse')}
+              </Link>
+              <Link
+                href="/services/tse-water"
                 className="hover:text-brand-red transition-colors flex items-center text-left"
               >
-                <ChevronRight className="w-3 h-3 mr-2" /> 
+                <ChevronRight className="w-3 h-3 mr-2" />
                 TSE Water Supply
-              </button>
-              <button 
-                onClick={() => handleServiceClick('service-sweet')}
+              </Link>
+              <Link
+                href="/services/sweet-water"
                 className="hover:text-brand-red transition-colors flex items-center text-left"
               >
-                <ChevronRight className="w-3 h-3 mr-2" /> 
+                <ChevronRight className="w-3 h-3 mr-2" />
                 Sweet Water Supply
-              </button>
+              </Link>
             </div>
           </div>
         </div>
